@@ -1,2 +1,2 @@
 # SkypeMessageTool
-Tool which helps to send you skype messages.
+Helps you with skype messages.
