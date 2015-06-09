@@ -17,7 +17,11 @@ Public Class Form1
 
             For Each User As SKYPE4COMLib.User In Skype.Friends
 
-                ListBox1.Items.Add(User.Handle + ", " + User.FullName)
+                If Not User.Handle.Contains("xmpp") Then
+
+                    ListBox1.Items.Add(User.Handle + ", " + User.FullName)
+
+                End If
 
             Next
 
@@ -89,12 +93,6 @@ Public Class Form1
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
 
-        SendMessageSMM()
-
-    End Sub
-
-    Sub SendMessageSMM()
-
         If ListBox2.Items.Count = 0 Then
 
             MsgBox("You haven't selected any contacts which should get the message.", MsgBoxStyle.Exclamation, "No contacts")
@@ -129,7 +127,10 @@ Public Class Form1
 
         End Try
 
+        MsgBox("Succsessfully sent messages.", MsgBoxStyle.Information, "Succsess!")
+
     End Sub
+
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 
@@ -153,12 +154,19 @@ Public Class Form1
 
             For Each Group As SKYPE4COMLib.Group In Skype.Groups
 
+                If Group.DisplayName = ListBox3.SelectedItem.ToString Then
 
+                    For Each User As SKYPE4COMLib.User In Group.Users
 
-                For Each User As SKYPE4COMLib.User In Group.Users
+                        If Not User.Handle.Contains("xmpp") Then
 
+                            Skype.SendMessage(User.Handle, RichTextBox2.Text)
 
-                Next
+                        End If
+
+                    Next
+
+                End If
 
             Next
 
@@ -167,6 +175,8 @@ Public Class Form1
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
 
         End Try
+
+        MsgBox("Succsessfully sent messages.", MsgBoxStyle.Information, "Succsess!")
 
     End Sub
 
